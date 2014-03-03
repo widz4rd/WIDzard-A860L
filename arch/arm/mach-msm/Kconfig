@@ -1683,6 +1683,23 @@ config MSM_CPU_FREQ_MIN
 
 endif # CPU_FREQ_MSM
 
+config CPU_OVERCLOCK
+	bool "Enable CPU overclocking option"
+	default n
+	help
+	  Krait overclocking up to 1.728GHz
+
+config CPU_ULTIMATE
+	bool "Enable CPU overclocking to 1.944GHz"
+	default n
+	help
+	  Unlock the ultimate overclock frequency to 1.944GHz
+
+config CPU_VOLTAGE_TABLE
+	bool "Enable CPU voltage table via sysfs for adjustments"
+	default n
+	help
+	  Krait user voltage control
 config MSM_CPU_AVS
 	bool "Enable software controlled Adaptive Voltage Scaling (AVS)"
 	depends on (ARCH_MSM_SCORPION && QSD_SVS)

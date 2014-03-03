@@ -2557,7 +2557,7 @@ static struct platform_device msm_tsens_device = {
 static struct msm_thermal_data msm_thermal_pdata = {
 	.sensor_id = 7,
 	.poll_ms = 250,
-	.limit_temp_degC = 60,
+	.limit_temp_degC = 75,
 	.temp_hysteresis_degC = 10,
 	.freq_step = 2,
 };
@@ -4248,13 +4248,13 @@ static void __init apq8064_cdp_init(void)
     //temp = (char *)__arm_ioremap(lphy, ALRANLOGSIZE, 11); //same as MT_MEMORY_NONCACHED
 
 #if defined(CONFIG_PANTECH_DEBUG)
-	lphy=0x88b00000;
+    lphy=0x88b00000;
 #else
     lphy=0x88c00000;
 #endif
     
-	temp = (char *)ioremap_nocache(lphy, ALRANLOGSIZE);
-
+    temp = (char *)ioremap_nocache(lphy, ALRANLOGSIZE);
+    
 	memset((void*)temp, 0, ALRANLOGSIZE);
 	enable_uncache_log_buf(temp, ALRANLOGSIZE/2);
 	pr_err("ALRAN:   log_buf mapped at 0x%08x/size %dKB\n", (unsigned int)temp, ALRANLOGSIZE/2/1024);
