@@ -3530,7 +3530,6 @@ static struct clk_freq_tbl clk_tbl_gfx3d_8960[] = {
 
 static struct clk_freq_tbl clk_tbl_gfx3d_8064[] = {
 	F_GFX3D(        0, gnd,   0,  0),
-	F_GFX3D(  1800000, pxo,   1, 15),	//	Fixed CASE: 01114218 by Qualcomm
 	F_GFX3D( 27000000, pxo,   0,  0),
 	F_GFX3D( 48000000, pll8,  1,  8),
 	F_GFX3D( 54857000, pll8,  1,  7),
@@ -3546,6 +3545,9 @@ static struct clk_freq_tbl clk_tbl_gfx3d_8064[] = {
 	F_GFX3D(266667000, pll2,  1,  3),
 	F_GFX3D(325000000, pll15, 1,  3),
 	F_GFX3D(400000000, pll2,  1,  2),
+#ifdef CONFIG_GPU_OVERCLOCK
+	F_GFX3D(487500000, pll15, 1,  2),
+#endif
 	F_END
 };
 
@@ -3574,7 +3576,11 @@ static struct clk_freq_tbl clk_tbl_gfx3d_8930[] = {
 static unsigned long fmax_gfx3d_8064[MAX_VDD_LEVELS] __initdata = {
 	[VDD_DIG_LOW]     = 128000000,
 	[VDD_DIG_NOMINAL] = 325000000,
+#ifdef CONFIG_GPU_OVERCLOCK
+	[VDD_DIG_HIGH]    = 487500000
+#else
 	[VDD_DIG_HIGH]    = 400000000
+#endif
 };
 
 static unsigned long fmax_gfx3d_8930[MAX_VDD_LEVELS] __initdata = {
@@ -5420,11 +5426,9 @@ static struct clk_lookup msm_clocks_8064[] = {
 	CLK_LOOKUP("npl_clk",		npl_tv_clk.c,		""),
 
 	CLK_LOOKUP("core_clk",		gfx3d_clk.c,	"kgsl-3d0.0"),
-	
-	CLK_LOOKUP("core_clk",		gfx3d_clk.c,	"footswitch-8x60.11"),	//	Fixed CASE: 01114218 by Qualcomm
+	CLK_LOOKUP("core_clk",		gfx3d_clk.c,	"footswitch-8x60.2"),
 	CLK_LOOKUP("bus_clk",
-			    gfx3d_axi_clk.c, "footswitch-8x60.11"),				//	Fixed CASE: 01114218 by Qualcomm
-
+			    gfx3d_axi_clk.c, "footswitch-8x60.2"),
 	CLK_LOOKUP("iface_clk",         vcap_p_clk.c,           ""),
 	CLK_LOOKUP("iface_clk",         vcap_p_clk.c,           "msm_vcap.0"),
 	CLK_LOOKUP("iface_clk",         vcap_p_clk.c,	"footswitch-8x60.10"),
@@ -5478,7 +5482,7 @@ static struct clk_lookup msm_clocks_8064[] = {
 	CLK_LOOKUP("master_iface_clk",	dsi2_m_p_clk.c,		"mipi_dsi.2"),
 	CLK_LOOKUP("slave_iface_clk",	dsi2_s_p_clk.c,		"mipi_dsi.2"),
 	CLK_LOOKUP("iface_clk",		gfx3d_p_clk.c,	"kgsl-3d0.0"),
-	CLK_LOOKUP("iface_clk",		gfx3d_p_clk.c,	"footswitch-8x60.11"),		//	Fixed CASE: 01114218 by Qualcomm
+	CLK_LOOKUP("iface_clk",		gfx3d_p_clk.c,	"footswitch-8x60.2"),
 	CLK_LOOKUP("master_iface_clk",	hdmi_m_p_clk.c,		"hdmi_msm.1"),
 	CLK_LOOKUP("slave_iface_clk",	hdmi_s_p_clk.c,		"hdmi_msm.1"),
 	CLK_LOOKUP("iface_clk",		ijpeg_p_clk.c,		"msm_gemini.0"),
